@@ -1,0 +1,39 @@
+{
+  "name": "a4-exoplanets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "clean": "rm dist/bundle.js",
+    "build-dev": "webpack -d --mode development",
+    "build-prod": "webpack -p --mode production",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "d3-array": "^2.3.1",
+    "d3-transition": "^1.2.0",
+    "dat.gui": "^0.7.6",
+    "express": "^4.17.1",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9",
+    "babel-loader": "^8.0.6",
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "css-loader": "^3.2.0",
+    "style-loader": "^1.0.0",
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
+    "d3": "^5.12.0",
+    "dat.gui": "^0.7.6",
+    "d3-transition": "^1.2.0",
+    "d3-array": "^2.3.1"
+  }
+}

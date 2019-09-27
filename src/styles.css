@@ -1,0 +1,16 @@
+body {
+  font-family: Rockwell, sans-serif;
+  font-size: 16px;
+  background-color:white;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightgray;
+  border: 0;
+  border-radius: 8px;
+  pointer-events: none;
+}
