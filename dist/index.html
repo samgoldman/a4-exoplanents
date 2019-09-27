@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>All Known Exoplanets</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <main style="text-align:center">
+            <h1>All Known Exoplanets</h1>
+            <h3>By Sam Goldman</h3>
+        </main>
+
+        <div id="instructionModal" class="modal" style="display: none">
+            <div class="modal-content">
+                <h1>Exoplanet Viewer Instructions</h1>
+                <p>The website uses data from the <a target="_blank" href="https://exoplanetarchive.ipac.caltech.edu">NASA Exoplanet Archive</a>
+                to display each of the 4,055 currently confirmed exoplanets. It displays the exoplanets grouped by their star system,
+                with the option to display each roughly to scale to each other. For the sake of screen real-estate, stars are never to scale,
+                nor are the displayed orbits. However, the orbital periods depicted are to scale (values are randomized for any unknown period, about 100 planets).</p>
+                <ol>
+                    <li><b>Viewing these instructions:</b> in the control menu on the right, click the 'instructions' button.</li>
+                    <li><b>Closing these instructions:</b> click anywhere outside of the modal.</li>
+                    <li><b>Display parameters:</b> the following instructions involve modifying display parameters. For any of the parameters
+                            to take effect, you <b>must</b> click the 'update' button in the menu.
+                    <ol>
+                        <li><b>Planetary scale:</b> to toggle planetary scale, use the 'scale' checkbox on the menu. When
+                            scale is enabled, use the 'scaleRatio' slider. Planetary scale is determined by the planet's <a target="_blank" href="https://en.wikipedia.org/wiki/Jupiter_radius">Jovian Radius</a>,
+                            so <pre>1 pixel = (1 / scaleRatio) * jovian_radii</pre>.</li>
+                        <li><b>Stellar Radius:</b> to change the radius of the stars, use the 'stellarRadius' slider.</li>
+                        <li><b>Sol System:</b> toggle the 'includeSol' checkbox to include the Sol system for reference.</li>
+                        <li><b>Sort the Systems:</b> to choose a method for sorting the systems, either alphabetically by name or by the number of planets in the system.
+                            Toggle the 'ascending' checkbox to switch between ascending or descending sorting.</li>
+                        <li><b>Systems per Line:</b> adjust the number of systems per row with the 'systemsPerLine' slider. Note that several of the previous
+                            parameters impact the overall size of the system. When these are modified, the grid sizes are adjusted to fit the largest system.</li>
+                    </ol></li>
+                    <li><b>Animation:</b> to change the speed of the animation, use the 'timeScale' slide. To toggle the animation on and off, use the 'pause' checkbox.</li>
+
+                </ol>
+                <p>Credit to this <a target="_blank" href="http://bl.ocks.org/djvanderlaan/4953593">demo</a> for help
+                    with the orbital animation code and to <a target="_blank" href="https://www.w3schools.com/howto/howto_css_modals.asp">W3Schools</a>
+                    for the base for this modal.</p>
+            </div>
+        </div>
+
+        <div id="app"></div>
+        <script src="bundle.js"></script>
+
+    </body>
+</html>
