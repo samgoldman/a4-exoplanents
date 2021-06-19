@@ -68,36 +68,42 @@ const analyzeSystems = function () {
 };
 
 const draw = function() {
+	// Reprocess all systems for orbital data and system radii
 	analyzeSystems();
 
 	const width = menu.default.settings.systemsPerLine * menu.default.settings.gridSize,
 		height = Math.ceil(d3Data.systems.length / menu.default.settings.systemsPerLine) * menu.default.settings.gridSize;
 
+	// Sort data appropriately
 	if (menu.default.settings.systemSort !== null)
 		if(menu.default.settings.systemSort === "alphabetical")
 			d3Data.systems.sort((a, b) => a.key.localeCompare(b.key) * (menu.default.settings.ascending ? 1 : -1));
 		else
 			d3Data.systems.sort((a, b) => (a.value.length - b.value.length) * (menu.default.settings.ascending ? 1 : -1));
 
+	// Add an SVG to the #app div
 	const svg = d3.select("#app").append("svg")
 		.attr("width", width)
 		.attr("height", height);
 
+	// Add a group for each system
 	const systemGroups = svg
 		.selectAll("g")
 		.data(d3Data.systems)
 		.enter()
-		.filter(d => d.key !== "Sol" || menu.default.settings.includeSol)
+		.filter(d => d.key !== "Sol" || menu.default.settings.includeSol) // Filter out Sol System if necessary
 		.append("g")
 		.attr("class", "system")
 		.attr("transform", (d, i) =>
 			`translate(${(i%menu.default.settings.systemsPerLine)*menu.default.settings.gridSize}, ${Math.floor(i/menu.default.settings.systemsPerLine)*menu.default.settings.gridSize})`);
 
+	// Add a rectangle to each system to create a grid
 	systemGroups
 		.append("rect")
 		.attr("width", menu.default.settings.gridSize)
 		.attr("height", menu.default.settings.gridSize).attr("fill", "none").attr("stroke", "black");
 
+	// Add a star to each system - circle with a constant, configurable radius, center
 	systemGroups
 		.append("circle")
 		.attr("r", menu.default.settings.stellarRadius)
@@ -105,19 +111,21 @@ const draw = function() {
 		.attr("cx", menu.default.settings.gridSize/2)
 		.attr("cy", menu.default.settings.gridSize/2);
 
+	// Add the orbits
 	systemGroups
 		.selectAll("g.orbit")
 		.data(d => d.value)
 		.enter()
 		.append("g")
 		.attr("class", "orbit")
-		.attr("transform", `translate(${menu.default.settings.gridSize/2},${menu.default.settings.gridSize/2})`)
+		.attr("transform", `translate(${menu.default.settings.gridSize/2},${menu.default.settings.gridSize/2})`) // Center the group on the grid
 		.append("circle")
 		.attr("fill", "none")
 		.attr("stroke", "grey")
 		.attr("stroke-dasharray", "1, 2")
-		.attr("r", d => menu.default.settings.scale ? d.scaledOrbit : d.unscaledOrbit);
+		.attr("r", d => menu.default.settings.scale ? d.scaledOrbit : d.unscaledOrbit); // Select correct orbit radius
 
+	// Add the planets
 	systemGroups
 		.selectAll("g.planet")
 		.data(d => d.value)
@@ -128,7 +136,7 @@ const draw = function() {
 		.append("circle")
 		.attr("fill", "blue")
 		.attr("r", d => menu.default.settings.scale ? d.scaledRadius : d.unscaledRadius)
-		.on("mouseover", function(d) {
+		.on("mouseover", (d) => {  // Mouseover text
 			div.transition()
 				.duration(200)
 				.style("opacity", .9);
@@ -139,19 +147,21 @@ const draw = function() {
 				.style("left", (d3.event.pageX) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
 		})
-		.on("mouseout", function() {
+		.on("mouseout", function() {  // Hide mouseover
 			div.transition()
 				.duration(500)
 				.style("opacity", 0);
 		});
 
+	// Add the star system names
 	systemGroups
 		.append("text")
-		.attr("alignment-baseline", "hanging")
 		.attr("text-anchor", "middle")
 		.attr("fill", "black")
 		.attr("x", menu.default.settings.gridSize/2)
-		.attr("y", menu.default.settings.gridSize/100)
+		.attr("y", menu.default.settings.gridSize/100) // slight offset from the top
+		.append("tspan")
+		.attr("dominant-baseline", "hanging")
 		.text(d => d.key);
 };
 
@@ -166,16 +176,16 @@ d3.interval(function() {
 			})
 			.selectAll(".planet")
 			.attr("transform", d => {
-				const newAngle = d.initialAngle + (100 / d["pl_orbper"] / menu.default.settings.timeScale);
-				d.initialAngle = newAngle;
+				const newAngle = d.initialAngle + (50 / d["pl_orbper"] / menu.default.settings.timeScale);
+				d.initialAngle = newAngle % 360;
 				return `translate(${menu.default.settings.gridSize / 2},${menu.default.settings.gridSize / 2}) rotate(${newAngle}) translate(${menu.default.settings.scale ? d.scaledOrbit : d.unscaledOrbit})`;
 			});
 	}
-}, 100);
+}, 50);
 
 const updateDisplay = function()  {
 	if (document.querySelector("svg") !== undefined)
-		document.querySelector("body").removeChild(document.querySelector("svg"));
+		document.querySelector("#app").removeChild(document.querySelector("svg"));
 
 	draw();
 };

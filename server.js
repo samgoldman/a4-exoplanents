@@ -9,6 +9,6 @@ app.use(compression());
 app.use(express.static('dist'));
 
 // listen for requests :)
-const listener = app.listen(8080/*process.env.PORT*/, function() {
+const listener = app.listen(process.env.PORT, function() {
 	console.log('Your app is running. Go to http://localhost:' + listener.address().port + '/index.html');
 });
